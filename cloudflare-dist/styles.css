@@ -658,34 +658,38 @@ body.cursor-pressed .cursor-dot {
   background:
     linear-gradient(
       180deg,
-      rgba(7, 7, 7, 0.98) 0%,
-      rgba(7, 7, 7, 0.62) 6%,
-      transparent 19%
+      rgba(7, 7, 7, 1) 0%,
+      rgba(7, 7, 7, 0.76) 11%,
+      rgba(7, 7, 7, 0.22) 24%,
+      transparent 36%
     ),
     linear-gradient(
       0deg,
-      rgba(7, 7, 7, 0.98) 0%,
-      rgba(7, 7, 7, 0.58) 7%,
-      transparent 21%
+      rgba(7, 7, 7, 1) 0%,
+      rgba(7, 7, 7, 0.72) 10%,
+      rgba(7, 7, 7, 0.2) 23%,
+      transparent 35%
     ),
     linear-gradient(
       90deg,
-      rgba(7, 7, 7, 0.96) 0%,
-      rgba(7, 7, 7, 0.58) 5%,
-      transparent 17%
+      rgba(7, 7, 7, 1) 0%,
+      rgba(7, 7, 7, 0.7) 8%,
+      rgba(7, 7, 7, 0.18) 19%,
+      transparent 30%
     ),
     linear-gradient(
       270deg,
-      rgba(7, 7, 7, 0.96) 0%,
-      rgba(7, 7, 7, 0.58) 5%,
-      transparent 17%
+      rgba(7, 7, 7, 1) 0%,
+      rgba(7, 7, 7, 0.7) 8%,
+      rgba(7, 7, 7, 0.18) 19%,
+      transparent 30%
     ),
     radial-gradient(
       ellipse 86% 91% at 50% 48%,
-      transparent 46%,
-      rgba(7, 7, 7, 0.08) 64%,
-      rgba(7, 7, 7, 0.42) 83%,
-      rgba(7, 7, 7, 0.9) 100%
+      transparent 30%,
+      rgba(7, 7, 7, 0.08) 52%,
+      rgba(7, 7, 7, 0.46) 73%,
+      rgba(7, 7, 7, 0.94) 100%
     );
   pointer-events: none;
 }
