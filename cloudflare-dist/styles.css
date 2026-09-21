@@ -631,6 +631,20 @@ body.cursor-pressed .cursor-dot {
   background-size: auto, auto, cover;
   border-radius: 18%;
   filter: blur(54px) saturate(1.55) brightness(0.8);
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 94% at 50% 48%,
+    #000 26%,
+    rgba(0, 0, 0, 0.78) 52%,
+    rgba(0, 0, 0, 0.24) 72%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 94% at 50% 48%,
+    #000 26%,
+    rgba(0, 0, 0, 0.78) 52%,
+    rgba(0, 0, 0, 0.24) 72%,
+    transparent 88%
+  );
   opacity: 0.6;
   pointer-events: none;
   transform: scale(1.06);
