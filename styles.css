@@ -666,33 +666,13 @@ body.cursor-pressed .cursor-dot {
   content: "";
   position: absolute;
   z-index: 0;
-  inset: -34%;
-  background-image:
-    radial-gradient(circle at 40% 38%, rgba(75, 89, 255, 0.3), transparent 46%),
-    radial-gradient(circle at 68% 72%, rgba(135, 55, 255, 0.26), transparent 50%),
-    url("assets/images/portrait.jpg");
-  background-position: center, center, center;
-  background-repeat: no-repeat;
-  background-size: auto, auto, cover;
-  border-radius: 18%;
-  filter: blur(74px) saturate(1.55) brightness(0.8);
-  -webkit-mask-image: radial-gradient(
-    ellipse 88% 94% at 50% 48%,
-    #000 26%,
-    rgba(0, 0, 0, 0.78) 52%,
-    rgba(0, 0, 0, 0.24) 72%,
-    transparent 88%
-  );
-  mask-image: radial-gradient(
-    ellipse 88% 94% at 50% 48%,
-    #000 26%,
-    rgba(0, 0, 0, 0.78) 52%,
-    rgba(0, 0, 0, 0.24) 72%,
-    transparent 88%
-  );
-  opacity: 0.64;
+  inset: -42%;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(75, 89, 255, 0.2), transparent 54%),
+    radial-gradient(circle at 68% 72%, rgba(135, 55, 255, 0.18), transparent 58%);
+  filter: blur(62px);
+  opacity: 0.72;
   pointer-events: none;
-  transform: scale(1.06);
 }
 
 .about__portrait::after {
@@ -718,20 +698,6 @@ body.cursor-pressed .cursor-dot {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  -webkit-mask-image: radial-gradient(
-    ellipse 100% 106% at 50% 50%,
-    #000 30%,
-    rgba(0, 0, 0, 0.94) 48%,
-    rgba(0, 0, 0, 0.48) 68%,
-    transparent 96%
-  );
-  mask-image: radial-gradient(
-    ellipse 100% 106% at 50% 50%,
-    #000 30%,
-    rgba(0, 0, 0, 0.94) 48%,
-    rgba(0, 0, 0, 0.48) 68%,
-    transparent 96%
-  );
   filter: contrast(1.04) saturate(1.03);
 }
 
