@@ -64,7 +64,7 @@
 - `beside`：`assets/covers/beside.jpg` + `assets/audio/beside.m4a`
 - `go no clue`：`assets/covers/go-no-clue.jpg` + `assets/audio/go-no-clue.m4a`
 
-歌曲由原始 WAV 转为 `192kbps` AAC/M4A，封面统一裁切为 `1200 × 1200`。4 个视频已统一转换为 `960px` 宽、30fps、H.264 Main Profile 和 AAC 音频，并开启 Fast Start；单文件约 `7.4–19MB`，适合网页直接播放和 Cloudflare 部署。
+歌曲由原始 WAV 转为 `192kbps` AAC/M4A，封面统一裁切为 `1200 × 1200`。4 个视频已统一转换为最高 `1280px` 宽、30fps、H.264 High Profile 和 AAC 音频，并开启 Fast Start；单文件约 `13–34MB`。页面会预缓冲约 3–5 秒，以换取更清晰的播放画质。
 
 ## 素材建议
 

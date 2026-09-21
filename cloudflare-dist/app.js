@@ -5,7 +5,7 @@ const works = [
     subtitle: "Sonic Art / Moving Image",
     year: "2026",
     cover: "assets/covers/f.jpg",
-    videoUrl: "assets/videos/f.mp4",
+    videoUrl: "https://kris041555.github.io/portfolio/assets/videos/f.mp4",
     description: "Sonic art film F.",
   },
   {
@@ -14,7 +14,7 @@ const works = [
     subtitle: "Sonic Art / Moving Image",
     year: "2025",
     cover: "assets/covers/i.jpg",
-    videoUrl: "assets/videos/i.mp4",
+    videoUrl: "https://kris041555.github.io/portfolio/assets/videos/i.mp4",
     description: "Sonic art film I.",
   },
   {
@@ -23,7 +23,7 @@ const works = [
     subtitle: "Sonic Art / Moving Image",
     year: "2025",
     cover: "assets/covers/l.jpg",
-    videoUrl: "assets/videos/l.mp4",
+    videoUrl: "https://kris041555.github.io/portfolio/assets/videos/l.mp4",
     description: "Sonic art film L.",
   },
   {
@@ -32,7 +32,7 @@ const works = [
     subtitle: "Sonic Art / Moving Image",
     year: "2024",
     cover: "assets/covers/m.jpg",
-    videoUrl: "assets/videos/m.mp4",
+    videoUrl: "https://kris041555.github.io/portfolio/assets/videos/m.mp4",
     description: "Sonic art film M.",
   },
   {
