@@ -1,0 +1,13 @@
+{
+  "name": "ram-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-cloudflare.mjs",
+    "deploy": "wrangler deploy"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
