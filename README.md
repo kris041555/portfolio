@@ -64,7 +64,7 @@
 - `beside`：`assets/covers/beside.jpg` + `assets/audio/beside.m4a`
 - `go no clue`：`assets/covers/go-no-clue.jpg` + `assets/audio/go-no-clue.m4a`
 
-歌曲由原始 WAV 转为 `192kbps` AAC/M4A，封面统一裁切为 `1200 × 1200`。`F` 和 `M` 保留原始 HEVC 画面，并转为 MP4 容器与 AAC 音频；`I` 和 `L` 保持原文件不变。由于保留了完整视频画质，`outputs` 体积仍然较大，适合本地预览和归档；正式部署到公网前建议再制作低码率网页版。
+歌曲由原始 WAV 转为 `192kbps` AAC/M4A，封面统一裁切为 `1200 × 1200`。4 个视频已统一转换为 `960px` 宽、30fps、H.264 Main Profile 和 AAC 音频，并开启 Fast Start；单文件约 `7.4–19MB`，适合网页直接播放和 Cloudflare 部署。
 
 ## 素材建议
 
