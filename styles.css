@@ -621,26 +621,34 @@ body.cursor-pressed .cursor-dot {
   content: "";
   position: absolute;
   z-index: 0;
-  inset: -13%;
-  background-image: url("assets/images/portrait.jpg");
-  background-position: center;
-  background-size: cover;
+  inset: -18%;
+  background-image:
+    radial-gradient(circle at 40% 38%, rgba(75, 89, 255, 0.3), transparent 46%),
+    radial-gradient(circle at 68% 72%, rgba(135, 55, 255, 0.26), transparent 50%),
+    url("assets/images/portrait.jpg");
+  background-position: center, center, center;
+  background-repeat: no-repeat;
+  background-size: auto, auto, cover;
   border-radius: 18%;
-  filter: blur(42px) saturate(1.5) brightness(0.78);
-  opacity: 0.48;
+  filter: blur(48px) saturate(1.5) brightness(0.8);
+  opacity: 0.56;
   pointer-events: none;
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 .about__portrait::after {
   content: "";
   position: absolute;
-  z-index: 1;
-  inset: -17%;
-  background:
-    radial-gradient(circle at 42% 40%, rgba(75, 89, 255, 0.24), transparent 46%),
-    radial-gradient(circle at 66% 72%, rgba(135, 55, 255, 0.2), transparent 50%);
-  filter: blur(26px);
+  z-index: 3;
+  inset: -10%;
+  background: radial-gradient(
+    ellipse 86% 91% at 50% 48%,
+    transparent 48%,
+    rgba(7, 7, 7, 0.1) 66%,
+    rgba(7, 7, 7, 0.5) 84%,
+    rgba(7, 7, 7, 0.94) 100%
+  );
+  filter: blur(10px);
   pointer-events: none;
 }
 
@@ -653,25 +661,25 @@ body.cursor-pressed .cursor-dot {
   object-fit: cover;
   object-position: center;
   -webkit-mask-image: radial-gradient(
-    ellipse 91% 95% at 50% 48%,
-    #000 50%,
-    rgba(0, 0, 0, 0.96) 64%,
-    rgba(0, 0, 0, 0.58) 80%,
-    transparent 100%
+    ellipse 90% 94% at 50% 48%,
+    #000 46%,
+    rgba(0, 0, 0, 0.92) 62%,
+    rgba(0, 0, 0, 0.42) 78%,
+    transparent 98%
   );
   mask-image: radial-gradient(
-    ellipse 91% 95% at 50% 48%,
-    #000 50%,
-    rgba(0, 0, 0, 0.96) 64%,
-    rgba(0, 0, 0, 0.58) 80%,
-    transparent 100%
+    ellipse 90% 94% at 50% 48%,
+    #000 46%,
+    rgba(0, 0, 0, 0.92) 62%,
+    rgba(0, 0, 0, 0.42) 78%,
+    transparent 98%
   );
   filter: contrast(1.04) saturate(1.03);
 }
 
 .about__monogram {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   left: 20px;
   bottom: 16px;
   margin: 0;
@@ -728,7 +736,7 @@ body.cursor-pressed .cursor-dot {
 
 .about__portrait p {
   position: absolute;
-  z-index: 3;
+  z-index: 4;
   left: 20px;
   top: 18px;
   margin: 0;
