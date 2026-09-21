@@ -599,26 +599,55 @@ body.cursor-pressed .cursor-dot {
 
 .about__portrait {
   position: relative;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 5;
   min-height: 0;
-  padding: clamp(20px, 2.6vw, 38px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 0;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: var(--radius);
-  background: #0b0b0b;
+  background: linear-gradient(180deg, #0a090d 0%, #130d1e 62%, #2b0e50 100%);
+  isolation: isolate;
 }
 
 .about__portrait::after {
   display: none;
 }
 
+.about__portrait-glow {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: linear-gradient(
+    145deg,
+    transparent 34%,
+    rgba(109, 46, 234, 0.16) 70%,
+    rgba(131, 58, 255, 0.3) 100%
+  );
+  pointer-events: none;
+}
+
+.about__portrait img {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: -5%;
+  width: 112%;
+  height: 112%;
+  object-fit: contain;
+  object-position: center bottom;
+  transform: translateX(-50%);
+  filter: contrast(1.12) saturate(0.94);
+}
+
 .about__monogram {
-  margin-top: auto;
-  color: #fff;
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  bottom: 16px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.1);
   font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(58px, 7vw, 112px);
+  font-size: clamp(68px, 7vw, 124px);
   font-weight: 600;
   line-height: 0.82;
   letter-spacing: 0;
@@ -668,9 +697,12 @@ body.cursor-pressed .cursor-dot {
 }
 
 .about__portrait p {
-  position: static;
-  margin: 30px 0 0;
-  color: rgba(242, 239, 232, 0.5);
+  position: absolute;
+  z-index: 3;
+  left: 20px;
+  top: 18px;
+  margin: 0;
+  color: rgba(242, 239, 232, 0.6);
   font-size: 10px;
   line-height: 1.45;
   text-transform: uppercase;

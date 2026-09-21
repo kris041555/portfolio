@@ -9,6 +9,7 @@ const directories = [
   "assets/audio",
   "assets/covers",
   "assets/cursor",
+  "assets/images",
 ];
 const remoteVideos =
   "https://kris041555.github.io/portfolio/assets/videos/";
