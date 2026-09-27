@@ -87,8 +87,8 @@ video {
   --cursor-y: 50vh;
   position: fixed;
   z-index: 170;
-  left: var(--cursor-x);
-  top: var(--cursor-y);
+  left: 0;
+  top: 0;
   width: 14px;
   height: 14px;
   border: 1px solid rgba(255, 255, 255, 0.78);
@@ -96,14 +96,18 @@ video {
   background: #000;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(1);
-  transition: opacity 140ms ease, transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 255, 255, 0.16);
-  will-change: left, top, transform;
+  transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%)
+    scale(1);
+  transition: opacity 140ms ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8);
+  will-change: transform;
 }
 
 body.dot-cursor-active,
-body.dot-cursor-active * {
+body.dot-cursor-active a,
+body.dot-cursor-active button,
+body.dot-cursor-active input,
+body.dot-cursor-active .work-card {
   cursor: none !important;
 }
 
@@ -112,7 +116,8 @@ body.dot-cursor-active .cursor-dot {
 }
 
 body.cursor-pressed .cursor-dot {
-  transform: translate(-50%, -50%) scale(0.78);
+  transform: translate3d(var(--cursor-x), var(--cursor-y), 0) translate(-50%, -50%)
+    scale(0.78);
   background: #111;
 }
 
@@ -125,10 +130,8 @@ body.cursor-pressed .cursor-dot {
   opacity: 0;
   pointer-events: none;
   transform-origin: 50% 4%;
-  transition: opacity 220ms ease;
-  filter: brightness(1.18) contrast(1.08)
-    drop-shadow(0 0 5px rgba(255, 255, 255, 0.24));
-  mix-blend-mode: screen;
+  filter: brightness(1.12) contrast(1.06);
+  backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
@@ -179,9 +182,8 @@ body.cursor-pressed .cursor-dot {
 
 .site-header.is-scrolled,
 .media-modal.is-open ~ .site-header {
-  background: rgba(7, 7, 7, 0.83);
+  background: rgba(7, 7, 7, 0.94);
   border-color: var(--line);
-  backdrop-filter: blur(18px);
 }
 
 .brand {
@@ -412,7 +414,6 @@ body.cursor-pressed .cursor-dot {
   background: rgba(7, 7, 7, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 999px;
-  backdrop-filter: blur(10px);
   color: rgba(255, 255, 255, 0.86);
   font-size: 9px;
   line-height: 1;
@@ -587,10 +588,9 @@ body.cursor-pressed .cursor-dot {
   position: absolute;
   z-index: 0;
   inset: -8%;
-  background-image: url("assets/images/portrait.jpg");
+  background-image: url("assets/images/portrait-ambient.jpg");
   background-position: center 48%;
   background-size: cover;
-  filter: blur(88px) saturate(1.35) brightness(0.66);
   opacity: 0.38;
   pointer-events: none;
   transform: scale(1.08);
@@ -670,7 +670,6 @@ body.cursor-pressed .cursor-dot {
   background:
     radial-gradient(circle at 42% 38%, rgba(75, 89, 255, 0.2), transparent 54%),
     radial-gradient(circle at 68% 72%, rgba(135, 55, 255, 0.18), transparent 58%);
-  filter: blur(62px);
   opacity: 0.72;
   pointer-events: none;
 }

@@ -731,7 +731,7 @@ function setupGuitarTrail() {
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   if (!cursorDot || !template || !finePointer.matches) return;
 
-  const layers = Array.from({ length: 5 }, (_, index) => {
+  const layers = Array.from({ length: 3 }, (_, index) => {
     if (index === 0) return template;
     const clone = template.cloneNode(true);
     delete clone.dataset.guitarTrail;
@@ -748,6 +748,13 @@ function setupGuitarTrail() {
   let isPressed = false;
   let visible = false;
   let hasMoved = false;
+  let frame = 0;
+  let lastFrame = 0;
+  let idleFrames = 0;
+
+  const startAnimation = () => {
+    if (!frame) frame = window.requestAnimationFrame(animate);
+  };
 
   const moveTrail = (event) => {
     if (event.pointerType && event.pointerType !== "mouse") return;
@@ -764,6 +771,8 @@ function setupGuitarTrail() {
       hasMoved = true;
     }
     visible = true;
+    idleFrames = 0;
+    startAnimation();
   };
 
   document.addEventListener("pointermove", moveTrail, { passive: true });
@@ -782,6 +791,7 @@ function setupGuitarTrail() {
     isPressed = true;
     document.body.classList.add("cursor-pressed");
     clickTilt = event.clientX < window.innerWidth / 2 ? -8 : 8;
+    startAnimation();
   });
   document.addEventListener("pointerup", () => {
     isPressed = false;
@@ -791,19 +801,37 @@ function setupGuitarTrail() {
     visible = false;
     hasMoved = false;
     document.body.classList.remove("dot-cursor-active", "cursor-pressed");
+    startAnimation();
   });
 
-  const animate = () => {
+  function animate(timestamp) {
+    frame = 0;
+    if (!visible) {
+      layers.forEach((layer) => {
+        layer.style.opacity = "0";
+      });
+      return;
+    }
+    if (timestamp - lastFrame < 32) {
+      startAnimation();
+      return;
+    }
+    lastFrame = timestamp;
+
     let targetX = pointerX;
     let targetY = pointerY;
+    let moving = false;
     layers.forEach((layer, index) => {
       const position = positions[index];
       const easing = 0.24 - index * 0.025;
       position.x += (targetX - position.x) * easing;
       position.y += (targetY - position.y) * easing;
+      if (Math.abs(targetX - position.x) > 0.35 || Math.abs(targetY - position.y) > 0.35) {
+        moving = true;
+      }
       const drift = Math.max(-6, Math.min(6, (targetX - position.x) * 0.045));
       const scale = 1 - index * 0.09;
-      layer.style.opacity = visible ? String(0.42 - index * 0.06) : "0";
+      layer.style.opacity = String(0.4 - index * 0.08);
       layer.style.transform =
         `translate3d(${position.x}px, ${position.y}px, 0) ` +
         `translateX(-50%) rotate(${drift + clickTilt * (1 - index * 0.12)}deg) ` +
@@ -812,10 +840,11 @@ function setupGuitarTrail() {
       targetY = position.y;
     });
     if (!isPressed) clickTilt *= 0.86;
-    window.requestAnimationFrame(animate);
-  };
+    idleFrames = moving || isPressed ? 0 : idleFrames + 1;
+    if (idleFrames < 5) startAnimation();
+  }
 
-  window.requestAnimationFrame(animate);
+  startAnimation();
 }
 
 function setupMisc() {
