@@ -130,7 +130,6 @@ body.cursor-pressed .cursor-dot {
   opacity: 0;
   pointer-events: none;
   transform-origin: 50% 4%;
-  filter: brightness(1.12) contrast(1.06);
   backface-visibility: hidden;
   will-change: transform, opacity;
 }
@@ -257,7 +256,7 @@ body.cursor-pressed .cursor-dot {
   transform: translate(-50%, -50%);
   text-align: center;
   pointer-events: none;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .eyebrow,
@@ -352,11 +351,6 @@ body.cursor-pressed .cursor-dot {
 }
 
 .work-card {
-  --tx: 0px;
-  --ty: 0px;
-  --rot: 0deg;
-  --scale: 1;
-  --caption-opacity: 0;
   position: relative;
   min-width: 0;
   padding: 0;
@@ -365,12 +359,10 @@ body.cursor-pressed .cursor-dot {
   text-align: left;
   cursor: pointer;
   transform-origin: center;
-  will-change: transform, opacity;
 }
 
 .js .motion-ready .work-card {
-  transform: translate3d(var(--tx), var(--ty), 0) rotate(var(--rot)) scale(var(--scale));
-  opacity: var(--card-opacity, 1);
+  opacity: 1;
 }
 
 .work-card__media {

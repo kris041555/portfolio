@@ -564,6 +564,7 @@ function setupConvergence() {
   let desktop = window.matchMedia("(min-width: 981px)").matches;
   let metrics = [];
   let frame = 0;
+  let scrollRange = 1;
 
   if (!window.location.hash) {
     window.scrollTo(0, 0);
@@ -585,19 +586,17 @@ function setupConvergence() {
 
   function clearMotion() {
     grid.classList.remove("motion-ready");
+    grid.style.removeProperty("--caption-opacity");
     cards.forEach((card) => {
-      card.style.removeProperty("--tx");
-      card.style.removeProperty("--ty");
-      card.style.removeProperty("--rot");
-      card.style.removeProperty("--scale");
-      card.style.removeProperty("--caption-opacity");
-      card.style.removeProperty("--card-opacity");
+      card.style.removeProperty("transform");
+      card.style.removeProperty("opacity");
       card.classList.remove("is-visible");
     });
   }
 
   function measureMotion() {
     const stageRect = stage.getBoundingClientRect();
+    scrollRange = Math.max(1, section.offsetHeight - stage.offsetHeight);
     metrics = cards.map((card, index) => {
       const rect = card.getBoundingClientRect();
       const currentCenterX = rect.left - stageRect.left + rect.width / 2;
@@ -623,15 +622,17 @@ function setupConvergence() {
 
   function paintDesktop() {
     const rect = section.getBoundingClientRect();
-    const scrollable = Math.max(1, section.offsetHeight - stage.offsetHeight);
-    const progressValue = clamp(-rect.top / scrollable);
+    const progressValue = clamp(-rect.top / scrollRange);
     const heroOpacity = clamp(1 - progressValue * 2.55);
     const heroScale = 1 + progressValue * 0.06;
 
     hero.style.opacity = String(heroOpacity);
-    hero.style.filter = `blur(${progressValue * 9}px)`;
     hero.style.transform = `translate(-50%, -50%) scale(${heroScale})`;
     counter.style.opacity = String(clamp((progressValue - 0.68) / 0.24));
+    grid.style.setProperty(
+      "--caption-opacity",
+      clamp((progressValue - 0.42) / 0.34).toFixed(3),
+    );
 
     metrics.forEach((metric) => {
       const local = easeOutCubic(clamp((progressValue - metric.delay) / (1 - metric.delay)));
@@ -640,15 +641,12 @@ function setupConvergence() {
       const ty = metric.dy * (1 - local) + metric.bowY * bow;
       const rotation = metric.rotation * (1 - local);
       const scale = metric.scale + (1 - metric.scale) * local;
-      const captionOpacity = clamp((progressValue - 0.42) / 0.34);
       const cardOpacity = 0.90 + local * 0.10;
 
-      metric.card.style.setProperty("--tx", `${tx.toFixed(2)}px`);
-      metric.card.style.setProperty("--ty", `${ty.toFixed(2)}px`);
-      metric.card.style.setProperty("--rot", `${rotation.toFixed(3)}deg`);
-      metric.card.style.setProperty("--scale", scale.toFixed(3));
-      metric.card.style.setProperty("--caption-opacity", captionOpacity.toFixed(3));
-      metric.card.style.setProperty("--card-opacity", cardOpacity.toFixed(3));
+      metric.card.style.transform =
+        `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0) ` +
+        `rotate(${rotation.toFixed(3)}deg) scale(${scale.toFixed(3)})`;
+      metric.card.style.opacity = cardOpacity.toFixed(3);
     });
 
     frame = 0;
@@ -731,19 +729,11 @@ function setupGuitarTrail() {
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   if (!cursorDot || !template || !finePointer.matches) return;
 
-  const layers = Array.from({ length: 3 }, (_, index) => {
-    if (index === 0) return template;
-    const clone = template.cloneNode(true);
-    delete clone.dataset.guitarTrail;
-    template.parentElement.insertBefore(clone, template.nextSibling);
-    return clone;
-  });
-  const positions = layers.map(() => ({
-    x: window.innerWidth / 2,
-    y: window.innerHeight / 2,
-  }));
+  const trail = template;
   let pointerX = window.innerWidth / 2;
   let pointerY = window.innerHeight / 2;
+  let trailX = pointerX;
+  let trailY = pointerY;
   let clickTilt = 0;
   let isPressed = false;
   let visible = false;
@@ -760,14 +750,10 @@ function setupGuitarTrail() {
     if (event.pointerType && event.pointerType !== "mouse") return;
     pointerX = event.clientX;
     pointerY = event.clientY;
-    cursorDot.style.setProperty("--cursor-x", `${pointerX}px`);
-    cursorDot.style.setProperty("--cursor-y", `${pointerY}px`);
     document.body.classList.add("dot-cursor-active");
     if (!hasMoved) {
-      positions.forEach((position) => {
-        position.x = pointerX;
-        position.y = pointerY;
-      });
+      trailX = pointerX;
+      trailY = pointerY;
       hasMoved = true;
     }
     visible = true;
@@ -781,10 +767,8 @@ function setupGuitarTrail() {
     pointerX = event.clientX;
     pointerY = event.clientY;
     if (!hasMoved) {
-      positions.forEach((position) => {
-        position.x = pointerX;
-        position.y = pointerY;
-      });
+      trailX = pointerX;
+      trailY = pointerY;
       hasMoved = true;
     }
     visible = true;
@@ -807,9 +791,7 @@ function setupGuitarTrail() {
   function animate(timestamp) {
     frame = 0;
     if (!visible) {
-      layers.forEach((layer) => {
-        layer.style.opacity = "0";
-      });
+      trail.style.opacity = "0";
       return;
     }
     if (timestamp - lastFrame < 32) {
@@ -818,27 +800,20 @@ function setupGuitarTrail() {
     }
     lastFrame = timestamp;
 
-    let targetX = pointerX;
-    let targetY = pointerY;
-    let moving = false;
-    layers.forEach((layer, index) => {
-      const position = positions[index];
-      const easing = 0.24 - index * 0.025;
-      position.x += (targetX - position.x) * easing;
-      position.y += (targetY - position.y) * easing;
-      if (Math.abs(targetX - position.x) > 0.35 || Math.abs(targetY - position.y) > 0.35) {
-        moving = true;
-      }
-      const drift = Math.max(-6, Math.min(6, (targetX - position.x) * 0.045));
-      const scale = 1 - index * 0.09;
-      layer.style.opacity = String(0.4 - index * 0.08);
-      layer.style.transform =
-        `translate3d(${position.x}px, ${position.y}px, 0) ` +
-        `translateX(-50%) rotate(${drift + clickTilt * (1 - index * 0.12)}deg) ` +
-        `scale(${scale})`;
-      targetX = position.x;
-      targetY = position.y;
-    });
+    trailX += (pointerX - trailX) * 0.23;
+    trailY += (pointerY - trailY) * 0.23;
+    const moving = Math.abs(pointerX - trailX) > 0.35 || Math.abs(pointerY - trailY) > 0.35;
+    const drift = Math.max(-6, Math.min(6, (pointerX - trailX) * 0.045));
+    const cursorScale = isPressed ? 0.78 : 1;
+
+    cursorDot.style.transform =
+      `translate3d(${pointerX}px, ${pointerY}px, 0) ` +
+      `translate(-50%, -50%) scale(${cursorScale})`;
+    trail.style.opacity = "0.34";
+    trail.style.transform =
+      `translate3d(${trailX}px, ${trailY}px, 0) ` +
+      `translateX(-50%) rotate(${drift + clickTilt}deg) scale(1)`;
+
     if (!isPressed) clickTilt *= 0.86;
     idleFrames = moving || isPressed ? 0 : idleFrames + 1;
     if (idleFrames < 5) startAnimation();
