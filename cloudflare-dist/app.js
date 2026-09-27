@@ -272,7 +272,7 @@ function renderVideoModal(work) {
           controls
           autoplay
           playsinline
-          preload="metadata"
+          preload="auto"
         ></video>
         <div class="video-fallback" data-video-fallback>
           <img src="${escapeHtml(work.cover)}" alt="" />
@@ -371,6 +371,7 @@ function bindVideoModal() {
 
   video.addEventListener("loadeddata", () => fallback.classList.remove("is-visible"));
   video.addEventListener("error", () => fallback.classList.add("is-visible"));
+  video.load();
   video.play().catch(() => {
     fallback.classList.add("is-visible");
   });
