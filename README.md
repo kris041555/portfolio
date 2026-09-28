@@ -50,19 +50,19 @@
 
 当前对应关系：
 
-- `F`：`assets/covers/f.jpg` + `assets/videos/f.mp4`
-- `I`：`assets/covers/i.jpg` + `assets/videos/i.mp4`
-- `L`：`assets/covers/l.jpg` + `assets/videos/l.mp4`
-- `M`：`assets/covers/m.jpg` + `assets/videos/m.mp4`
+- `F`：`assets/covers/f.webp` + `assets/videos/f.mp4`
+- `I`：`assets/covers/i.webp` + `assets/videos/i.mp4`
+- `L`：`assets/covers/l.webp` + `assets/videos/l.mp4`
+- `M`：`assets/covers/m.webp` + `assets/videos/m.mp4`
 
 歌曲对应关系：
 
-- `Alarm`：`assets/covers/alarm.jpg` + `assets/audio/alarm.m4a`
-- `echelon`：`assets/covers/echelon.jpg` + `assets/audio/echelon.m4a`
-- `No One Helps Me Now`：`assets/covers/no-one-helps-me-now.jpg` + `assets/audio/no-one-helps-me-now.m4a`
-- `alone`：`assets/covers/alone.jpg` + `assets/audio/alone.m4a`
-- `beside`：`assets/covers/beside.jpg` + `assets/audio/beside.m4a`
-- `go no clue`：`assets/covers/go-no-clue.jpg` + `assets/audio/go-no-clue.m4a`
+- `Alarm`：`assets/covers/alarm.webp` + `assets/audio/alarm.m4a`
+- `echelon`：`assets/covers/echelon.webp` + `assets/audio/echelon.m4a`
+- `No One Helps Me Now`：`assets/covers/no-one-helps-me-now.webp` + `assets/audio/no-one-helps-me-now.m4a`
+- `alone`：`assets/covers/alone.webp` + `assets/audio/alone.m4a`
+- `beside`：`assets/covers/beside.webp` + `assets/audio/beside.m4a`
+- `go no clue`：`assets/covers/go-no-clue.webp` + `assets/audio/go-no-clue.m4a`
 
 歌曲由原始 WAV 转为 `192kbps` AAC/M4A，封面统一裁切为 `1200 × 1200`。4 个视频已统一转换为最高 `1280px` 宽、30fps、H.264 High Profile 和 AAC 音频，并开启 Fast Start；单文件约 `13–34MB`。页面会预缓冲约 3–5 秒，以换取更清晰的播放画质。
 
@@ -75,7 +75,7 @@
 
 ## 吉他自定义鼠标
 
-透明吉他素材位于 `assets/cursor/guitar-cursor.png`。桌面端鼠标会替换为约 `14px` 的黑色圆点，吉他会作为多层渐隐拖影跟随指针移动，并在点击时产生轻微倾斜；触屏设备会自动关闭点状鼠标和拖影。
+透明吉他素材位于 `assets/cursor/guitar-cursor.webp`。桌面端鼠标会替换为约 `14px` 的黑色圆点，吉他会作为单层渐变拖影跟随指针移动；触屏设备会自动关闭点状鼠标和拖影。
 
 ## 本地预览
 
