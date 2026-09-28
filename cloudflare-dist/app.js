@@ -270,12 +270,14 @@ function renderVideoModal(work) {
           src="${escapeHtml(work.videoUrl)}"
           poster="${escapeHtml(work.cover)}"
           controls
-          autoplay
           playsinline
-          preload="auto"
+          preload="metadata"
         ></video>
         <div class="video-fallback" data-video-fallback>
           <img src="${escapeHtml(work.cover)}" alt="" />
+          <button class="video-fallback__play" type="button" data-video-play aria-label="播放视频">
+            ${playIcon}
+          </button>
         </div>
       </div>
       <h2 class="sr-only" id="media-title">${escapeHtml(work.title)}</h2>
@@ -367,14 +369,38 @@ function bindAudioModal() {
 function bindVideoModal() {
   const video = modalContent.querySelector("[data-modal-video]");
   const fallback = modalContent.querySelector("[data-video-fallback]");
-  if (!video || !fallback) return;
+  const playButton = modalContent.querySelector("[data-video-play]");
+  if (!video || !fallback || !playButton) return;
+  let fallbackTimer = 0;
 
-  video.addEventListener("loadeddata", () => fallback.classList.remove("is-visible"));
-  video.addEventListener("error", () => fallback.classList.add("is-visible"));
-  video.load();
-  video.play().catch(() => {
+  const revealFallback = () => {
     fallback.classList.add("is-visible");
+  };
+
+  const playVideo = () => {
+    window.clearTimeout(fallbackTimer);
+    video.play().catch(() => {
+      revealFallback();
+    });
+  };
+
+  video.addEventListener("loadeddata", () => {
+    window.clearTimeout(fallbackTimer);
+    fallback.classList.remove("is-visible");
   });
+  video.addEventListener("canplay", () => {
+    window.clearTimeout(fallbackTimer);
+    fallback.classList.remove("is-visible");
+  });
+  video.addEventListener("error", revealFallback);
+  playButton.addEventListener("click", playVideo);
+
+  fallbackTimer = window.setTimeout(() => {
+    if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) revealFallback();
+  }, 1500);
+
+  video.load();
+  playVideo();
 }
 
 function loadTrack(index, autoplay = true) {

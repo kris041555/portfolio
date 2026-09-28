@@ -1202,6 +1202,13 @@ body.cursor-pressed .cursor-dot {
   display: grid;
 }
 
+.video-fallback::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.34);
+}
+
 .video-fallback img {
   position: absolute;
   inset: -5%;
@@ -1210,6 +1217,28 @@ body.cursor-pressed .cursor-dot {
   display: block;
   object-fit: cover;
   animation: fallback-drift 12s ease-in-out infinite alternate;
+}
+
+.video-fallback__play {
+  position: relative;
+  z-index: 2;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  background: rgba(7, 7, 7, 0.74);
+  color: #fff;
+  cursor: pointer;
+}
+
+.video-fallback__play svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  stroke: none;
 }
 
 @keyframes fallback-drift {
