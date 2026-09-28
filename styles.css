@@ -131,6 +131,7 @@ body.cursor-pressed .cursor-dot {
   pointer-events: none;
   transform-origin: 50% 4%;
   backface-visibility: hidden;
+  transition: transform 70ms linear, opacity 120ms ease;
   will-change: transform, opacity;
 }
 

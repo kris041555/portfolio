@@ -565,6 +565,7 @@ function setupConvergence() {
   let metrics = [];
   let frame = 0;
   let scrollRange = 1;
+  let lastProgress = -1;
 
   if (!window.location.hash) {
     window.scrollTo(0, 0);
@@ -587,6 +588,7 @@ function setupConvergence() {
   function clearMotion() {
     grid.classList.remove("motion-ready");
     grid.style.removeProperty("--caption-opacity");
+    lastProgress = -1;
     cards.forEach((card) => {
       card.style.removeProperty("transform");
       card.style.removeProperty("opacity");
@@ -623,6 +625,11 @@ function setupConvergence() {
   function paintDesktop() {
     const rect = section.getBoundingClientRect();
     const progressValue = clamp(-rect.top / scrollRange);
+    if (Math.abs(progressValue - lastProgress) < 0.0005) {
+      frame = 0;
+      return;
+    }
+    lastProgress = progressValue;
     const heroOpacity = clamp(1 - progressValue * 2.55);
     const heroScale = 1 + progressValue * 0.06;
 
@@ -723,103 +730,39 @@ function setupHeader() {
   window.addEventListener("scroll", update, { passive: true });
 }
 
-function setupGuitarTrail() {
+function setupCursorTrail() {
   const cursorDot = document.querySelector("[data-cursor-dot]");
-  const template = document.querySelector("[data-guitar-trail]");
+  const trail = document.querySelector("[data-guitar-trail]");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-  if (!cursorDot || !template || !finePointer.matches) return;
-
-  const trail = template;
-  let pointerX = window.innerWidth / 2;
-  let pointerY = window.innerHeight / 2;
-  let trailX = pointerX;
-  let trailY = pointerY;
-  let clickTilt = 0;
-  let isPressed = false;
-  let visible = false;
-  let hasMoved = false;
-  let frame = 0;
-  let lastFrame = 0;
-  let idleFrames = 0;
-
-  const startAnimation = () => {
-    if (!frame) frame = window.requestAnimationFrame(animate);
-  };
+  if (!cursorDot || !trail || !finePointer.matches) return;
 
   const moveTrail = (event) => {
     if (event.pointerType && event.pointerType !== "mouse") return;
-    pointerX = event.clientX;
-    pointerY = event.clientY;
+    const { clientX, clientY } = event;
+    cursorDot.style.transform =
+      `translate3d(${clientX}px, ${clientY}px, 0) ` +
+      `translate(-50%, -50%) scale(var(--cursor-press-scale, 1))`;
+    trail.style.transform =
+      `translate3d(${clientX}px, ${clientY}px, 0) ` +
+      `translateX(-50%) rotate(var(--cursor-tilt, 0deg))`;
+    trail.style.opacity = "0.3";
     document.body.classList.add("dot-cursor-active");
-    if (!hasMoved) {
-      trailX = pointerX;
-      trailY = pointerY;
-      hasMoved = true;
-    }
-    visible = true;
-    idleFrames = 0;
-    startAnimation();
   };
 
   document.addEventListener("pointermove", moveTrail, { passive: true });
-  document.addEventListener("pointerdown", (event) => {
-    if (event.pointerType && event.pointerType !== "mouse") return;
-    pointerX = event.clientX;
-    pointerY = event.clientY;
-    if (!hasMoved) {
-      trailX = pointerX;
-      trailY = pointerY;
-      hasMoved = true;
-    }
-    visible = true;
-    isPressed = true;
+  document.addEventListener("pointerdown", () => {
     document.body.classList.add("cursor-pressed");
-    clickTilt = event.clientX < window.innerWidth / 2 ? -8 : 8;
-    startAnimation();
+    cursorDot.style.setProperty("--cursor-press-scale", "0.78");
   });
   document.addEventListener("pointerup", () => {
-    isPressed = false;
     document.body.classList.remove("cursor-pressed");
+    cursorDot.style.removeProperty("--cursor-press-scale");
   });
   document.documentElement.addEventListener("mouseleave", () => {
-    visible = false;
-    hasMoved = false;
+    trail.style.opacity = "0";
     document.body.classList.remove("dot-cursor-active", "cursor-pressed");
-    startAnimation();
+    cursorDot.style.removeProperty("--cursor-press-scale");
   });
-
-  function animate(timestamp) {
-    frame = 0;
-    if (!visible) {
-      trail.style.opacity = "0";
-      return;
-    }
-    if (timestamp - lastFrame < 32) {
-      startAnimation();
-      return;
-    }
-    lastFrame = timestamp;
-
-    trailX += (pointerX - trailX) * 0.23;
-    trailY += (pointerY - trailY) * 0.23;
-    const moving = Math.abs(pointerX - trailX) > 0.35 || Math.abs(pointerY - trailY) > 0.35;
-    const drift = Math.max(-6, Math.min(6, (pointerX - trailX) * 0.045));
-    const cursorScale = isPressed ? 0.78 : 1;
-
-    cursorDot.style.transform =
-      `translate3d(${pointerX}px, ${pointerY}px, 0) ` +
-      `translate(-50%, -50%) scale(${cursorScale})`;
-    trail.style.opacity = "0.34";
-    trail.style.transform =
-      `translate3d(${trailX}px, ${trailY}px, 0) ` +
-      `translateX(-50%) rotate(${drift + clickTilt}deg) scale(1)`;
-
-    if (!isPressed) clickTilt *= 0.86;
-    idleFrames = moving || isPressed ? 0 : idleFrames + 1;
-    if (idleFrames < 5) startAnimation();
-  }
-
-  startAnimation();
 }
 
 function setupMisc() {
@@ -831,5 +774,5 @@ setupAudio();
 setupModal();
 setupConvergence();
 setupHeader();
-setupGuitarTrail();
+setupCursorTrail();
 setupMisc();
